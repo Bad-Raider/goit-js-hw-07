@@ -2,7 +2,7 @@ import { galleryItems } from './gallery-items.js';
 // Change code below this line
 
 const galleryContainer = document.querySelector(".gallery");
-const galleryImage = document.querySelector(".gallery__image");
+const modal = document.querySelector(".modal");
 
 const card = galleryItems.map(obj => {
     const { description, preview, original } = obj;
@@ -19,17 +19,34 @@ const card = galleryItems.map(obj => {
     </div>
     `
 }).join("")
-
+// Edding card in gallary
 galleryContainer.insertAdjacentHTML("beforeend", card);
-
-const handleZoomPictureGallery = (event) => {
+// handler show modal
+const handleOpenModalShowOriginalPicture = (event) => {
+    // default link open
     event.preventDefault();
+    // link big picture
     const linkOriginalPicture = event.target.dataset.source;
-    console.log(linkOriginalPicture)    
+    // modal
+    const modul = basicLightbox.create(`
+    <div class="modal">
+        <img src="${linkOriginalPicture}" >
+    </div>
+    `);
+    // showing modul
+    modul.show();
+    // closed model key "esc"
+    document.body.addEventListener("keydown",
+        function (event) {
+            if (event.key === "Escape") {
+                modul.close();
+        }
+    });  
 }
 
-galleryContainer.addEventListener("click", handleZoomPictureGallery)
+galleryContainer.addEventListener("click", handleOpenModalShowOriginalPicture);
 
-// Визначити як створити елемент
-// Визначити як створити повноцінну галерею
-//  Дослідити питання готових галерей
+
+ 
+
+
