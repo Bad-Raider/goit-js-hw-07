@@ -1,9 +1,7 @@
 import { galleryItems } from './gallery-items.js';
-// Change code below this line
-
+// it`s gallery DOM element
 const galleryContainer = document.querySelector(".gallery");
-const modal = document.querySelector(".modal");
-
+// creating (rendering) card  
 const card = galleryItems.map(obj => {
     const { description, preview, original } = obj;
     return `
@@ -19,27 +17,34 @@ const card = galleryItems.map(obj => {
     </div>
     `
 }).join("")
-// Edding card in gallary
+// Edding card in the gallary
 galleryContainer.insertAdjacentHTML("beforeend", card);
+
 // handler show modal
 const handleOpenModalShowOriginalPicture = (event) => {
+    
+    // click on img only
+    if (event.target.nodeName !== "IMG") {
+        return;
+    }
     // default link open
     event.preventDefault();
+
     // link big picture
     const linkOriginalPicture = event.target.dataset.source;
-    // modal
-    const modul = basicLightbox.create(`
+    // creat modal element
+    const modal = basicLightbox.create(`
     <div class="modal">
         <img src="${linkOriginalPicture}" >
     </div>
     `);
-    // showing modul
-    modul.show();
+    // show modal element
+    modal.show();
     // closed model key "esc"
     document.body.addEventListener("keydown",
         function (event) {
             if (event.key === "Escape") {
-                modul.close();
+                modal.close();
         }
     });  
 }
