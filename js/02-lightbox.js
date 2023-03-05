@@ -29,7 +29,6 @@ const handleOpenModalShow = (event) => {
    //options for light box
     const options = {
     captionsData: "alt",
-    showCounter: false
     };
     // simple light box
     const lightbox = new SimpleLightbox('.gallery a', options);
