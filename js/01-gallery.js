@@ -8,8 +8,8 @@ const card = galleryItems.map(obj => {
     <div class="gallery__item">
         <a class="gallery__link" href="${original}">
         <img
-            class="gallery__image"
-            src=${preview}
+            class="gallery__image lazyload"
+            data-src=${preview}
             data-source=${original}
             alt="${description}"
         />
@@ -40,13 +40,15 @@ const handleOpenModalShowOriginalPicture = (event) => {
     `);
     // show modal element
     modal.show();
-    // closed model key "esc"
-    document.body.addEventListener("keydown",
-        function (event) {
+    // handler closed model key "esc"
+    const handleCloseModalKeyEsc = (event) => {
             if (event.key === "Escape") {
                 modal.close();
+                document.body.removeEventListener("keydown", handleCloseModalKeyEsc)
         }
-    });  
+    }
+    // 
+    document.body.addEventListener("keydown", handleCloseModalKeyEsc);  
 }
 
 galleryContainer.addEventListener("click", handleOpenModalShowOriginalPicture);
