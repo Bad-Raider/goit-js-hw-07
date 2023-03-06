@@ -2,8 +2,9 @@ import { galleryItems } from './gallery-items.js';
 // it`s gallery DOM element
 const galleryContainer = document.querySelector(".gallery");
 // creating (rendering) card  
-const card = galleryItems.map(obj => {
-    const { description, preview, original } = obj;
+function createElementMarkup(markup) {
+    return markup.map(({ description, preview, original }) => {
+    
     return `
     <div class="gallery__item">
         <a class="gallery__link" href="${original}">
@@ -16,9 +17,11 @@ const card = galleryItems.map(obj => {
         </a>
     </div>
     `
-}).join("")
+    }).join("")
+};
 // Edding card in the gallary
-galleryContainer.insertAdjacentHTML("beforeend", card);
+galleryContainer.insertAdjacentHTML("beforeend",
+    createElementMarkup(galleryItems));
 
 // handler show modal
 const handleOpenModalShowOriginalPicture = (event) => {
@@ -37,18 +40,25 @@ const handleOpenModalShowOriginalPicture = (event) => {
     <div class="modal">
         <img src="${linkOriginalPicture}" >
     </div>
-    `);
+    `,
+    //options modal 
+        {
+        onShow: () => { 
+            document.addEventListener("keydown", handleCloseModalKeyEsc);
+            },
+        onClose: () => {
+            document.removeEventListener("keydown", handleCloseModalKeyEsc) 
+            }
+        }
+    );
     // show modal element
     modal.show();
     // handler closed model key "esc"
-    const handleCloseModalKeyEsc = (event) => {
+    function handleCloseModalKeyEsc (event) {
             if (event.key === "Escape") {
                 modal.close();
-                document.body.removeEventListener("keydown", handleCloseModalKeyEsc)
         }
-    }
-    // 
-    document.body.addEventListener("keydown", handleCloseModalKeyEsc);  
+    } 
 }
 
 galleryContainer.addEventListener("click", handleOpenModalShowOriginalPicture);

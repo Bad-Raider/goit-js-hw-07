@@ -6,36 +6,26 @@ console.log(galleryItems);
 // it`s gallery DOM element
 const galleryContainer = document.querySelector(".gallery");
 // creating (rendering) card  
-const card = galleryItems.map(obj => {
-    const { description, preview, original } = obj;
+function createElementMarkup(markup) {
+   return markup.map(({ description, preview, original }) => {
+    
     return `
     <a class="gallery__item" href="${original}">
   <img class="gallery__image" loading="lazy" src=${preview} alt="${description}" />
 </a>
     `
-}).join("")
+}).join("")}
 // Edding card in the gallary
-galleryContainer.insertAdjacentHTML("beforeend", card);
-
-// handler show modal
-const handleOpenModalShow = (event) => {
-    
-    // click on img only
-    if (event.target.nodeName !== "IMG") {
-        return;
-    }
-    // default link open
-    event.preventDefault();
-   //options for light box
-    const options = {
+galleryContainer.insertAdjacentHTML("beforeend",
+    createElementMarkup(galleryItems));
+// simple light box
+const lightbox = new SimpleLightbox('.gallery a',
+    {
     captionsData: "alt",
-    };
-    // simple light box
-    const lightbox = new SimpleLightbox('.gallery a', options);
-    lightbox.on('show.simplelightbox'); 
-}
+    }
+);
 
-galleryContainer.addEventListener("click", handleOpenModalShow);
+lightbox.on('show.simplelightbox'); 
 
 
 
